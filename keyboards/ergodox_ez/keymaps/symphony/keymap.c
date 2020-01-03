@@ -34,7 +34,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
  *                                        | App  | LGui |       | Alt  |Ctrl/Esc|
- *                                 ,------|------|------|       |------+--------+------.ds
+ *                                 ,------|------|------|       |------+--------+------.
  *                                 |      |      | Home |       | PgUp |        |      |
  *                                 | Space|Backsp|------|       |------|  Tab   |Enter |
  *                                 |      |ace   | End  |       | PgDn |        |      |
@@ -51,7 +51,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                   LT(NAVI, KC_BSPC), LT(SYMB, KC_DEL), KC_NO,
 
   KC_NO, KC_NO, KC_NO,        KC_NO,        KC_NO,        KC_NO,   KC_NO,
-  KC_NO, KC_Y,  KC_U,         KC_I,         KC_O,         KC_P,    KC_BSLS, 
+  KC_NO, KC_Y,  KC_U,         KC_I,         KC_O,         KC_P,    KC_BSLS,
          KC_H,  RSFT_T(KC_J), RCTL_T(KC_K), RALT_T(KC_L), KC_SCLN, KC_QUOT,
   KC_NO, KC_B,  KC_N,         KC_M,         KC_COMM,      KC_DOT,  KC_NO, 
   KC_NO, KC_NO, KC_NO,        KC_NO,        KC_NO,
@@ -128,17 +128,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNSd
+  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
                                                KC_TRNS, KC_TRNS,
                                                         KC_TRNS,
                                       KC_TRNS, KC_TRNS, KC_TRNS,
 
-  KC_TRNS,       KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,    KC_TRNS,
-  C(S(KC_UP)),   KC_TRNS,    KC_HOME, KC_UP,   KC_END,  KC_TRNS,    KC_TRNS,
-                 C(KC_LEFT), KC_LEFT, KC_DOWN, KC_RGHT, C(KC_RGHT), KC_TRNS,
-  C(S(KC_DOWN)), KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,    KC_TRNS,
-                             KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,    KC_TRNS,
+  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+  C(S(KC_UP)), KC_TRNS, KC_HOME, KC_UP,   KC_END,  KC_TRNS, KC_TRNS,
+           C(KC_LEFT), KC_LEFT, KC_DOWN, KC_RGHT, C(KC_RGHT), KC_TRNS,
+  C(S(KC_DOWN)), KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+                    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
   KC_TRNS, KC_TRNS,
   KC_TRNS,
   KC_TRNS, KC_TRNS, KC_TRNS
@@ -289,7 +289,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 uint16_t get_tapping_term(uint16_t keycode) {
   switch (keycode) {
     case SFT_T(KC_F):
-      return 140;
+      return 120;
     case RSFT_T(KC_J):
       return 100;
     default:
