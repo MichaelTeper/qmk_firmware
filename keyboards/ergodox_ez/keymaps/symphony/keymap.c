@@ -22,40 +22,40 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Root layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |   =    |   1  |   2  |   3  |   4  |   5  | LEFT |           | RIGHT|   6  |   7  |   8  |   9  |   0  |   -    |
+ * | Escape | Undo | Redo |  Cut | Copy | Paste|      |           |      | Back |  Fwd | Prev | Ahead|Select|     a   |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * | Del    |   Q  |   W  |   E  |   R  |   T  |  L1  |           |  L1  |   Y  |   U  |   I  |   O  |   P  |   \    |
+ * |        |   Q  |   W  |   E  |   R  |   T  |      |           |      |   Y  |   U  |   I  |   O  |   P  |    \   |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |; / L2|' / Cmd |
- * |--------+------+------+------+------+------| Hyper|           | Meh  |------+------+------+------+------+--------|
- * | LShift |Z/Ctrl|   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |//Ctrl| RShift |
+ * |        |   A  |   S  | D_Alt|F_Ctrl|G_Shft|------|           |------|   H  |J_Shft|K_Ctrl| L_Alt|   ;  |    '   |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |        |   /  |   Z  |   X  |   C  |   V  |      |           |      |   B  |   N  |   M  |   ,  |   .  |    -   |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |Grv/L1|  '"  |AltShf| Left | Right|                                       |  Up  | Down |   [  |   ]  | ~L1  |
+ *   |      |      |      |      |  Win |                                       |      |      |      |      | Reset|
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
- *                                        | App  | LGui |       | Alt  |Ctrl/Esc|
- *                                 ,------|------|------|       |------+--------+------.
- *                                 |      |      | Home |       | PgUp |        |      |
- *                                 | Space|Backsp|------|       |------|  Tab   |Enter |
- *                                 |      |ace   | End  |       | PgDn |        |      |
- *                                 `--------------------'       `----------------------'
+ *                                        |      |      |       |      |      |
+ *                                 ,------|------|------|       |------+------+------.
+ *                                 |      |      |      |       |      |      |      |
+ *                                 |Backsp|Delete|------|       |------| Enter| Space|
+ *                                 | _NAVI| _SYMB| App  |       |  Tab |      | _APPL|
+ *                                 `--------------------'       `--------------------'
  */
 [ROOT] = LAYOUT_ergodox(
-  KC_ESC,     KC_NO,   KC_NO,       KC_NO,       KC_NO,       KC_NO, LCTL(KC_X),
-  KC_CAPS,    KC_Q,    KC_W,        KC_E,        KC_R,        KC_T,  LCTL(KC_C),
-  C(KC_Z),    KC_A,    ALT_T(KC_S), CTL_T(KC_D), SFT_T(KC_F), KC_G,
-  C(S(KC_Z)), KC_SLSH, KC_Z,        KC_X,        KC_C,        KC_V,  LCTL(KC_V),
-  KC_NO,      KC_NO,   KC_NO,       KC_NO,       KC_LWIN,
-                                                               KC_APP, KC_NO,
+  KC_ESC,  C(KC_Z), C(S(KC_Z)),  LCTL(KC_X),  LCTL(KC_C),  LCTL(KC_V), KC_NO,
+  KC_CAPS, KC_Q,    KC_W,        KC_E,        KC_R,        KC_T,       KC_NO,
+  KC_NO,   KC_A,    ALT_T(KC_S), CTL_T(KC_D), SFT_T(KC_F), KC_G,
+  KC_NO,   KC_SLSH, KC_Z,        KC_X,        KC_C,        KC_V,  KC_NO,
+  KC_NO,   KC_NO,   KC_NO,       KC_NO,       KC_LWIN,
+                                                                KC_NO, KC_NO,
                                                                        KC_NO,
-                                  LT(NAVI, KC_BSPC), LT(SYMB, KC_DEL), KC_NO,
+                                 LT(NAVI, KC_BSPC), LT(SYMB, KC_DEL), KC_APP,
 
-  KC_NO, KC_NO, KC_NO,        KC_NO,        KC_NO,        KC_NO,   KC_NO,
-  KC_NO, KC_Y,  KC_U,         KC_I,         KC_O,         KC_P,    KC_BSLS,
-         KC_H,  RSFT_T(KC_J), RCTL_T(KC_K), RALT_T(KC_L), KC_SCLN, KC_QUOT,
-  KC_NO, KC_B,  KC_N,         KC_M,         KC_COMM,      KC_DOT,  KC_NO, 
-  KC_NO, KC_NO, KC_NO,        KC_NO,        KC_NO,
-  KC_NO,  RESET,
+  KC_NO, A(KC_LEFT), A(KC_RIGHT),  C(KC_TAB),    C(S(KC_TAB)), C(A(KC_TAB)),   KC_NO,
+  KC_NO, KC_Y,       KC_U,         KC_I,         KC_O,         KC_P,    KC_BSLS,
+         KC_H,       RSFT_T(KC_J), RCTL_T(KC_K), RALT_T(KC_L), KC_SCLN, KC_QUOT,
+  KC_NO, KC_B,       KC_N,         KC_M,         KC_COMM,      KC_DOT,  KC_MINS, 
+  KC_NO, KC_NO,      KC_NO,        KC_NO,        RESET,
+  KC_NO, KC_NO,
   KC_NO,
   KC_TAB, KC_ENT, LT(APPL, KC_SPC)
 ),
