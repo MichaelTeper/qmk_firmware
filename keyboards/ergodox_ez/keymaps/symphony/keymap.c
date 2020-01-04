@@ -41,11 +41,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 `--------------------'       `----------------------'
  */
 [ROOT] = LAYOUT_ergodox(
-  KC_ESC,  KC_NO,   KC_NO,       KC_NO,       KC_NO,       KC_NO, LCTL(KC_X),
-  KC_CAPS, KC_Q,    KC_W,        KC_E,        KC_R,        KC_T,  LCTL(KC_C),
-  KC_GRV,  KC_A,    ALT_T(KC_S), CTL_T(KC_D), SFT_T(KC_F), KC_G,
-  KC_MINS, KC_SLSH, KC_Z,        KC_X,        KC_C,        KC_V,  LCTL(KC_V),
-  KC_NO,   KC_NO,   KC_NO,       KC_NO,       KC_LWIN,
+  KC_ESC,     KC_NO,   KC_NO,       KC_NO,       KC_NO,       KC_NO, LCTL(KC_X),
+  KC_CAPS,    KC_Q,    KC_W,        KC_E,        KC_R,        KC_T,  LCTL(KC_C),
+  C(KC_Z),    KC_A,    ALT_T(KC_S), CTL_T(KC_D), SFT_T(KC_F), KC_G,
+  C(S(KC_Z)), KC_SLSH, KC_Z,        KC_X,        KC_C,        KC_V,  LCTL(KC_V),
+  KC_NO,      KC_NO,   KC_NO,       KC_NO,       KC_LWIN,
                                                                KC_APP, KC_NO,
                                                                        KC_NO,
                                   LT(NAVI, KC_BSPC), LT(SYMB, KC_DEL), KC_NO,
