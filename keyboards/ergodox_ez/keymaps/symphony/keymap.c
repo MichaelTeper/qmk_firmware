@@ -289,7 +289,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 uint16_t get_tapping_term(uint16_t keycode) {
   switch (keycode) {
     case SFT_T(KC_F):
-      return 120;
+      return 140; 
     case RSFT_T(KC_J):
       return 100;
     default:
