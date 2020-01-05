@@ -16,17 +16,28 @@ enum custom_keycodes {
   RGB_SLD
 };
 
+//Tap Dance Declarations
+enum {
+  TD_SWITCH = 0
+}; 
+
+//Tap Dance Definitions
+qk_tap_dance_action_t tap_dance_actions[] = {
+  //Tap once for Alt+Tab, Shift+Alt+Tab
+  [TD_SWITCH] = ACTION_TAP_DANCE_DOUBLE(A(KC_TAB), C(A(KC_TAB))),
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /*********************************************************************************************************************/
 /*********************************************************************************************************************/
 /* Keymap 0: Root layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * | Escape | Undo | Redo |  Cut | Copy | Paste|      |           |      | Back |  Fwd | Prev | Ahead|Select|     a   |
+ * | Escape | Undo | Redo |  Cut | Copy | Paste|      |           |      | Back |  Fwd | Prev | Ahead|Switch|    a   |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
  * |        |   Q  |   W  |   E  |   R  |   T  |      |           |      |   Y  |   U  |   I  |   O  |   P  |    \   |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |   A  |   S  | D_Alt|F_Ctrl|G_Shft|------|           |------|   H  |J_Shft|K_Ctrl| L_Alt|   ;  |    '   |
+ * |    =   |   A  |   S  | D_Alt|F_Ctrl|G_Shft|------|           |------|   H  |J_Shft|K_Ctrl| L_Alt|   ;  |    '   |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |        |   /  |   Z  |   X  |   C  |   V  |      |           |      |   B  |   N  |   M  |   ,  |   .  |    -   |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
@@ -41,20 +52,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 `--------------------'       `--------------------'
  */
 [ROOT] = LAYOUT_ergodox(
-  KC_ESC,  C(KC_Z), C(S(KC_Z)),  LCTL(KC_X),  LCTL(KC_C),  LCTL(KC_V), KC_NO,
-  KC_CAPS, KC_Q,    KC_W,        KC_E,        KC_R,        KC_T,       KC_NO,
+  KC_ESC,  C(KC_Z), C(S(KC_Z)),  C(KC_X),     C(KC_C),     C(KC_V), KC_NO,
+  KC_CAPS, KC_Q,    KC_W,        KC_E,        KC_R,        KC_T,    KC_NO,
   KC_NO,   KC_A,    ALT_T(KC_S), CTL_T(KC_D), SFT_T(KC_F), KC_G,
-  KC_NO,   KC_SLSH, KC_Z,        KC_X,        KC_C,        KC_V,  KC_NO,
+  KC_NO,   KC_SLSH, KC_Z,        KC_X,        KC_C,        KC_V,    KC_NO,
   KC_NO,   KC_NO,   KC_NO,       KC_NO,       KC_LWIN,
-                                                                KC_NO, KC_NO,
-                                                                       KC_NO,
-                                 LT(NAVI, KC_BSPC), LT(SYMB, KC_DEL), KC_APP,
+                                                            KC_NO,  KC_NO,
+                                                                    KC_NO,
+                              LT(NAVI, KC_BSPC), LT(SYMB, KC_DEL), KC_APP,
 
-  KC_NO, A(KC_LEFT), A(KC_RIGHT),  C(KC_TAB),    C(S(KC_TAB)), C(A(KC_TAB)),   KC_NO,
-  KC_NO, KC_Y,       KC_U,         KC_I,         KC_O,         KC_P,    KC_BSLS,
-         KC_H,       RSFT_T(KC_J), RCTL_T(KC_K), RALT_T(KC_L), KC_SCLN, KC_QUOT,
-  KC_NO, KC_B,       KC_N,         KC_M,         KC_COMM,      KC_DOT,  KC_MINS, 
-  KC_NO, KC_NO,      KC_NO,        KC_NO,        RESET,
+  KC_NO, A(KC_LEFT), A(KC_RIGHT),  C(KC_TAB),    C(S(KC_TAB)), TD(TD_SWITCH), KC_NO,
+  KC_NO, KC_Y,       KC_U,         KC_I,         KC_O,         KC_P,          KC_BSLS,
+         KC_H,       RSFT_T(KC_J), RCTL_T(KC_K), RALT_T(KC_L), KC_SCLN,       KC_QUOT,
+  KC_NO, KC_B,       KC_N,         KC_M,         KC_COMM,      KC_DOT,        KC_MINS, 
+  KC_NO, KC_NO,      KC_NO,        KC_NO,        KC_NO,
   KC_NO, KC_NO,
   KC_NO,
   KC_TAB, KC_ENT, LT(APPL, KC_SPC)
@@ -150,20 +161,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * |        |      |      | MsUp |      |      |      |           |      |      |      |      |      |      |        |
+ * |        |      |      | MsUp |      |      |      |           |      |      |      | WhUp |      |      |        |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |      |MsLeft|MsDown|MsRght|      |------|           |------|      |      |      |      |      |  Play  |
+ * |        |      |MsLeft|MsDown|MsRght|      |------|           |------|      |WhLeft|WhDown|WhRght|      |  Play  |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |      |      |      |      |      |      |           |      |      |      | Prev | Next |      |        |
+ * |        |      |      |      |      |      |      |           |      |      |MsSpd1|MsSpd2|MsSpd3|      |        |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |      |      |      | Lclk | Rclk |                                       |VolUp |VolDn | Mute |      |      |
+ *   |      |      |      |      |      |                                       |VolUp |VolDn | Mute |      |      |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
- *                                        |      |      |       |      |      |
+ *                                        |      |      |       |      | Reset|
  *                                 ,------|------|------|       |------+------+------.
- *                                 |      |      |      |       |      |      |Brwser|
- *                                 |      |      |------|       |------|      |Back  |
- *                                 |      |      |      |       |      |      |      |
+ *                                 | Left | Right|      |       |      |      |      |
+ *                                 | Click| Click|------|       |------|      |      |
+ *                                 |      |      |MClick|       |      |      |      |
  *                                 `--------------------'       `--------------------'
  */
 [APPL] = LAYOUT_ergodox(
@@ -182,7 +193,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            KC_TRNS, KC_WH_L, KC_WH_D, KC_WH_R, KC_TRNS, KC_MPLY,
   KC_TRNS, KC_TRNS, KC_ACL0, KC_ACL1, KC_ACL2, KC_TRNS, KC_TRNS,
                     KC_VOLU, KC_VOLD, KC_MUTE, KC_TRNS, KC_TRNS,
-  KC_TRNS, KC_TRNS,
+  KC_TRNS, RESET,
   KC_TRNS,
   KC_TRNS, KC_TRNS, KC_WBAK
 )
