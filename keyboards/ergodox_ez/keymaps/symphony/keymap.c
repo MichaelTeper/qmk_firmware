@@ -1,11 +1,18 @@
 #include QMK_KEYBOARD_H
 #include "version.h"
 
+// Layer Definitions
 #define ROOT 0 // root
 #define SYMB 1 // symbols
 #define NAVI 2 // text navigation
 #define APPL 3 // media keys and mouse
 
+// Tap-Dance Definitions
+#define TD_SWITCH 0
+#define TD_CPY_CUT 1
+#define TD_BCK_FWD 2
+
+// Custom Keycodes Definitions
 enum custom_keycodes {
 #ifdef ORYX_CONFIGURATOR
   EPRM = EZ_SAFE_RANGE,
@@ -15,12 +22,6 @@ enum custom_keycodes {
   VRSN,
   RGB_SLD
 };
-
-enum {
-  TD_SWITCH = 0,
-  TD_CPY_CUT = 1,
-  TD_BCK_FWD = 2
-}; 
 
 //Tap Dance Definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
@@ -68,7 +69,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_NO,     KC_Y,        KC_U,           KC_I,          KC_O,         KC_P,    KC_BSLS,
              KC_H,        RSFT_T(KC_J),   RCTL_T(KC_K),  RALT_T(KC_L), KC_SCLN, KC_QUOT,
   KC_NO,     KC_B,        KC_N,           KC_M,          KC_COMM,      KC_DOT,  KC_MINS, 
-  C(KC_TAB), C(S(KC_TAB), TD(TD_BCK_FWD), TD(TD_SWITCH), KC_NO,
+  C(KC_TAB), C(S(KC_TAB)), TD(TD_BCK_FWD), TD(TD_SWITCH), KC_NO,
   KC_NO, KC_NO,
   KC_NO,
   KC_TAB, KC_ENT, LT(APPL, KC_SPC)
