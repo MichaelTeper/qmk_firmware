@@ -16,11 +16,10 @@ enum custom_keycodes {
   RGB_SLD
 };
 
-//Tap Dance Declarations
 enum {
   TD_SWITCH = 0,
   TD_CPY_CUT = 1,
-  TD_BCK_FWD = 2,
+  TD_BCK_FWD = 2
 }; 
 
 //Tap Dance Definitions
@@ -28,7 +27,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   //Tap once for Alt+Tab, Shift+Alt+Tab
   [TD_SWITCH] = ACTION_TAP_DANCE_DOUBLE(A(KC_TAB), C(A(KC_TAB))),
   [TD_CPY_CUT] = ACTION_TAP_DANCE_DOUBLE(C(KC_C), C(KC_X)),
-  [TD_BCK_FWD] = ACTION_TAP_DANCE_DOUBLE(A(KC_LEFT), A(KC_RGHT)),
+  [TD_BCK_FWD] = ACTION_TAP_DANCE_DOUBLE(A(KC_LEFT), A(KC_RGHT))
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -37,11 +36,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Root layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * | Escape |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+ * | Escape |      |      |      |      |      |      |           |      |      |      |      |      |      |   ⊞   |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * |        |   Q  |   W  |   E  |   R  |   T  |      |           |      |   Y  |   U  |   I  |   O  |   P  |    \   |
+ * |  Caps  |   Q  |   W  |   E  |   R  |   T  |      |           |      |   Y  |   U  |   I  |   O  |   P  |    \   |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |   A  |   S  | D_Alt|F_Ctrl|G_Shft|------|           |------|   H  |J_Shft|K_Ctrl| L_Alt|   ;  |    '   |
+ * |    =   |   A  |   S  | D_Alt|F_Ctrl|G_Shft|------|           |------|   H  |J_Shft|K_Ctrl| L_Alt|   ;  |    '   |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |        |   /  |   Z  |   X  |   C  |   V  |      |           |      |   B  |   N  |   M  |   ,  |   .  |    -   |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
@@ -56,16 +55,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 `--------------------'       `--------------------'
  */
 [ROOT] = LAYOUT_ergodox(
-  KC_ESC,  KC_NO,   KC_NO,       KC_NO,       KC_NO,       KC_NO, KC_NO,
-  KC_CAPS, KC_Q,    KC_W,        KC_E,        KC_R,        KC_T,  KC_NO,
-  KC_NO,   KC_A,    ALT_T(KC_S), CTL_T(KC_D), SFT_T(KC_F), KC_G,
-  KC_NO,   KC_SLSH, KC_Z,        KC_X,        KC_C,        KC_V,  KC_NO,
+  KC_ESC,  KC_NO,   KC_NO,       KC_NO,          KC_NO,       KC_NO, KC_NO,
+  KC_CAPS, KC_Q,    KC_W,        KC_E,           KC_R,        KC_T,  KC_NO,
+  KC_EQL,  KC_A,    ALT_T(KC_S), CTL_T(KC_D),    SFT_T(KC_F), KC_G,
+  KC_NO,   KC_SLSH, KC_Z,        KC_X,           KC_C,        KC_V,  KC_NO,
   KC_NO,   C(KC_Z), C(S(KC_Z)),  TD(TD_CPY_CUT), C(KC_V),
                                                           KC_NO,  KC_NO,
                                                                   KC_NO,
                             LT(NAVI, KC_BSPC), LT(SYMB, KC_DEL), KC_APP,
 
-  KC_NO,     KC_NO,       KC_NO,          KC_NO,         KC_NO,        KC_NO,   KC_NO,
+  KC_NO,     KC_NO,       KC_NO,          KC_NO,         KC_NO,        KC_NO,   KC_LWIN,
   KC_NO,     KC_Y,        KC_U,           KC_I,          KC_O,         KC_P,    KC_BSLS,
              KC_H,        RSFT_T(KC_J),   RCTL_T(KC_K),  RALT_T(KC_L), KC_SCLN, KC_QUOT,
   KC_NO,     KC_B,        KC_N,           KC_M,          KC_COMM,      KC_DOT,  KC_MINS, 
