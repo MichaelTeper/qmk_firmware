@@ -11,6 +11,7 @@
 #define TD_SWITCH 0
 #define TD_CPY_CUT 1
 #define TD_BCK_FWD 2
+#define TD_NXT_PRV 2
 
 // Custom Keycodes Definitions
 enum custom_keycodes {
@@ -28,7 +29,8 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   //Tap once for Alt+Tab, Shift+Alt+Tab
   [TD_SWITCH] = ACTION_TAP_DANCE_DOUBLE(A(KC_TAB), C(A(KC_TAB))),
   [TD_CPY_CUT] = ACTION_TAP_DANCE_DOUBLE(C(KC_C), C(KC_X)),
-  [TD_BCK_FWD] = ACTION_TAP_DANCE_DOUBLE(A(KC_LEFT), A(KC_RGHT))
+  [TD_BCK_FWD] = ACTION_TAP_DANCE_DOUBLE(A(KC_LEFT), A(KC_RGHT)),
+  [TD_NXT_PRV] = ACTION_TAP_DANCE_DOUBLE(KC_MNXT, KC_MPRV)
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -171,7 +173,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |        |      |      |      |      |      |      |           |      |      |MsSpd1|MsSpd2|MsSpd3|      |        |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |      |      |      |      |      |                                       |VolUp |VolDn | Mute |      |      |
+ *   |      |      |      |      |      |                                       |VolDn |VolUp | Mute |NxtPrv|      |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
  *                                        |      |      |       |      | Reset|
@@ -188,15 +190,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TRNS, KC_TRNS, KC_MS_L, KC_MS_D, KC_MS_R, KC_TRNS,
   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-                                               KC_TRNS, KC_TRNS,
+                                               KC_TRNS, KC_TRNS,  
                                                         KC_TRNS,
                                       KC_BTN1, KC_BTN2, KC_BTN3,
   // right hand
-  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-  KC_TRNS, KC_TRNS, KC_TRNS, KC_WH_U, KC_TRNS, KC_TRNS, KC_TRNS,
-           KC_TRNS, KC_WH_L, KC_WH_D, KC_WH_R, KC_TRNS, KC_MPLY,
-  KC_TRNS, KC_TRNS, KC_ACL0, KC_ACL1, KC_ACL2, KC_TRNS, KC_TRNS,
-                    KC_VOLU, KC_VOLD, KC_MUTE, KC_TRNS, KC_TRNS,
+  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,        KC_TRNS,
+  KC_TRNS, KC_TRNS, KC_TRNS, KC_WH_U, KC_TRNS, KC_TRNS,        KC_TRNS,
+           KC_TRNS, KC_WH_L, KC_WH_D, KC_WH_R, KC_TRNS,        KC_MPLY,
+  KC_TRNS, KC_TRNS, KC_ACL0, KC_ACL1, KC_ACL2, KC_TRNS,        KC_TRNS,
+                    KC_VOLD, KC_VOLU, KC_MUTE, TD(TD_NXT_PRV), KC_TRNS,
   KC_TRNS, RESET,
   KC_TRNS,
   KC_TRNS, KC_TRNS, KC_WBAK
