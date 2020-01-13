@@ -11,7 +11,7 @@
 #define TD_SWITCH 0
 #define TD_CPY_CUT 1
 #define TD_BCK_FWD 2
-#define TD_NXT_PRV 2
+#define TD_NXT_PRV 3
 
 // Custom Keycodes Definitions
 enum custom_keycodes {
