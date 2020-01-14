@@ -227,7 +227,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 | _NAVI| _SYMB| App  |       |  Tab |      | _APPL|
  *                                 `--------------------'       `--------------------'
  */
-[ROOT] = LAYOUT_ergodox(
+[TEST] = LAYOUT_ergodox(
   KC_ESC,  KC_NO,   KC_NO,       KC_NO,          KC_NO,       KC_NO, KC_NO,
   KC_CAPS, KC_Q,    KC_W,        KC_E,           KC_R,        KC_T,  KC_NO,
   KC_EQL,  KC_A,    ALT_T(KC_S), CTL_T(KC_D),    SFT_T(KC_F), KC_G,
