@@ -6,6 +6,7 @@
 #define SYMB 1 // symbols
 #define NAVI 2 // text navigation
 #define APPL 3 // media keys and mouse
+#define TEST 4 // media keys and mouse
 
 // Tap-Dance Definitions
 #define TD_SWITCH 0
@@ -45,7 +46,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |    =   |   A  |   S  | D_Alt|F_Ctrl|G_Shft|------|           |------|   H  |J_Shft|K_Ctrl| L_Alt|   ;  |    '   |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |   /  |   Z  |   X  |   C  |   V  |      |           |      |   B  |   N  |   M  |   ,  |   .  |    -   |
+ * |  TEST  |   /  |   Z  |   X  |   C  |   V  |      |           |      |   B  |   N  |   M  |   ,  |   .  |    -   |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |      | Undo | Redo |CpyCut| Paste|                                       | Prev | Ahead|BckFwd|Switch|      |
  *   `----------------------------------'                                       `----------------------------------'
@@ -58,14 +59,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 `--------------------'       `--------------------'
  */
 [ROOT] = LAYOUT_ergodox(
-  KC_ESC,  KC_NO,   KC_NO,       KC_NO,          KC_NO,       KC_NO, KC_NO,
-  KC_CAPS, KC_Q,    KC_W,        KC_E,           KC_R,        KC_T,  KC_NO,
-  KC_EQL,  KC_A,    ALT_T(KC_S), CTL_T(KC_D),    SFT_T(KC_F), KC_G,
-  KC_NO,   KC_SLSH, KC_Z,        KC_X,           KC_C,        KC_V,  KC_NO,
-  KC_NO,   C(KC_Z), C(S(KC_Z)),  TD(TD_CPY_CUT), C(KC_V),
-                                                          KC_NO,  KC_NO,
-                                                                  KC_NO,
-                            LT(NAVI, KC_BSPC), LT(SYMB, KC_DEL), KC_APP,
+  KC_ESC,   KC_NO,   KC_NO,       KC_NO,          KC_NO,       KC_NO, KC_NO,
+  KC_CAPS,  KC_Q,    KC_W,        KC_E,           KC_R,        KC_T,  KC_NO,
+  KC_EQL,   KC_A,    ALT_T(KC_S), CTL_T(KC_D),    SFT_T(KC_F), KC_G,
+  TG(TEST), KC_SLSH, KC_Z,        KC_X,           KC_C,        KC_V,  KC_NO,
+  KC_NO,    C(KC_Z), C(S(KC_Z)),  TD(TD_CPY_CUT), C(KC_V),
+                                                              KC_NO,  KC_NO,
+                                                                      KC_NO,
+                                LT(NAVI, KC_BSPC), LT(SYMB, KC_DEL), KC_APP,
 
   KC_NO,     KC_NO,       KC_NO,          KC_NO,         KC_NO,        KC_NO,   KC_LWIN,
   KC_NO,     KC_Y,        KC_U,           KC_I,          KC_O,         KC_P,    KC_BSLS,
@@ -202,7 +203,49 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TRNS, RESET,
   KC_TRNS,
   KC_TRNS, KC_TRNS, KC_WBAK
-)
+),
+/*********************************************************************************************************************/
+/*********************************************************************************************************************/
+/* Keymap 0: Testing layer
+ *
+ * ,--------------------------------------------------.           ,--------------------------------------------------.
+ * | Escape |      |      |      |      |      |      |           |      |      |      |      |      |      |   ⊞   |
+ * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+ * |  Caps  |   Q  |   W  |   E  |   R  |   T  |      |           |      |   Y  |   U  |   I  |   O  |   P  |    \   |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |    =   |   A  |   S  | D_Alt|F_Ctrl|G_Shft|------|           |------|   H  |J_Shft|K_Ctrl| L_Alt|   ;  |    '   |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |        |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  |    -   |
+ * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+ *   |      | Undo | Redo |CpyCut| Paste|                                       | Prev | Ahead|BckFwd|Switch|      |
+ *   `----------------------------------'                                       `----------------------------------'
+ *                                        ,-------------.       ,-------------.
+ *                                        |      |      |       |      |      |
+ *                                 ,------|------|------|       |------+------+------.
+ *                                 |      |      |      |       |      |      |      |
+ *                                 |Backsp|Delete|------|       |------| Enter| Space|
+ *                                 | _NAVI| _SYMB| App  |       |  Tab |      | _APPL|
+ *                                 `--------------------'       `--------------------'
+ */
+[ROOT] = LAYOUT_ergodox(
+  KC_ESC,  KC_NO,   KC_NO,       KC_NO,          KC_NO,       KC_NO, KC_NO,
+  KC_CAPS, KC_Q,    KC_W,        KC_E,           KC_R,        KC_T,  KC_NO,
+  KC_EQL,  KC_A,    ALT_T(KC_S), CTL_T(KC_D),    SFT_T(KC_F), KC_G,
+  KC_NO,   KC_Z,    KC_X,        KC_C,           KC_V,        KC_NO,  KC_B,
+  KC_NO,   C(KC_Z), C(S(KC_Z)),  TD(TD_CPY_CUT), C(KC_V),
+                                                          KC_NO,  KC_NO,
+                                                                  KC_NO,
+                            LT(NAVI, KC_BSPC), LT(SYMB, KC_DEL), KC_APP,
+
+  KC_NO,     KC_NO,       KC_NO,          KC_NO,         KC_NO,        KC_NO,   KC_LWIN,
+  KC_NO,     KC_Y,        KC_U,           KC_I,          KC_O,         KC_P,    KC_BSLS,
+             KC_H,        RSFT_T(KC_J),   RCTL_T(KC_K),  RALT_T(KC_L), KC_SCLN, KC_QUOT,
+  KC_NO,     KC_N,        KC_M,           KC_COMM,       KC_DOT,       KC_MINS, KC_SLSH, 
+  C(KC_TAB), C(S(KC_TAB)), TD(TD_BCK_FWD), TD(TD_SWITCH), KC_NO,
+  KC_NO, KC_NO,
+  KC_NO,
+  KC_TAB, KC_ENT, LT(APPL, KC_SPC)
+),
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
