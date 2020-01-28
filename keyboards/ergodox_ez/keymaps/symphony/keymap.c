@@ -3,10 +3,11 @@
 
 // Layer Definitions
 #define ROOT 0 // root
-#define TEST 1 // media keys and mouse
+#define PASS 1 // pass
 #define SYMB 2 // symbols
 #define NAVI 3 // text navigation
 #define APPL 4 // media keys and mouse
+#define WIND 5 // Window
 
 
 // Tap-Dance Definitions
@@ -63,7 +64,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_ESC,   KC_NO,   KC_NO,       KC_NO,          KC_NO,       KC_NO, KC_NO,
   KC_CAPS,  KC_Q,    KC_W,        KC_E,           KC_R,        KC_T,  KC_NO,
   KC_EQL,   KC_A,    ALT_T(KC_S), CTL_T(KC_D),    SFT_T(KC_F), KC_G,
-  TG(TEST), KC_SLSH, KC_Z,        KC_X,           KC_C,        KC_V,  KC_NO,
+  TG(PASS), KC_SLSH, KC_Z,        KC_X,           KC_C,        KC_V,  KC_NO,
   KC_NO,    C(KC_Z), C(S(KC_Z)),  TD(TD_CPY_CUT), C(KC_V),
                                                               KC_NO,  KC_NO,
                                                                       KC_NO,
@@ -76,11 +77,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   C(KC_TAB), C(S(KC_TAB)), TD(TD_BCK_FWD), TD(TD_SWITCH), KC_NO,
   KC_NO, KC_NO,
   KC_NO,
-  KC_TAB, KC_ENT, LT(APPL, KC_SPC)
+  KC_TAB, LT(WIND, KC_ENT), LT(APPL, KC_SPC)
 ),  
 /*********************************************************************************************************************/
 /*********************************************************************************************************************/
-/* Keymap 2: Text navigation layer
+/* Keymap 1: Text navigation layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
@@ -101,11 +102,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 |      |      |      |       |      |      |      |
  *                                 `--------------------'       `--------------------'
  */
-[TEST] = LAYOUT_ergodox(
+[PASS] = LAYOUT_ergodox(
   KC_NO,    KC_1,  KC_2,  KC_3,  KC_4,    KC_NO, KC_NO,
   KC_NO,    KC_Q,  KC_W,  KC_E,  KC_R,    KC_NO, KC_NO,
   KC_NO,    KC_A,  KC_S,  KC_D,  KC_F,    KC_NO,
-  TG(TEST), KC_NO, KC_NO, KC_NO, S(KC_V), KC_V,  KC_NO,
+  TG(PASS), KC_NO, KC_NO, KC_NO, S(KC_V), KC_V,  KC_NO,
   KC_NO,    KC_NO, KC_NO, KC_NO, KC_NO,
                                           KC_NO, KC_NO,
                                                  KC_NO,
@@ -122,7 +123,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 /*********************************************************************************************************************/
 /*********************************************************************************************************************/
-/* Keymap 1: Symbol Layer
+/* Keymap 2: Symbol Layer
  *
  * ,---------------------------------------------------.           ,--------------------------------------------------.
  * |Version  |  F1  |  F2  |  F3  |  F4  |  F5  |      |           |      |  F6  |  F7  |  F8  |  F9  |  F10 |   F11  |
@@ -164,7 +165,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 /*********************************************************************************************************************/
 /*********************************************************************************************************************/
-/* Keymap 2: Text navigation layer
+/* Keymap 3: Text navigation layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
@@ -206,7 +207,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 /*********************************************************************************************************************/
 /*********************************************************************************************************************/
-/* Keymap 2: Media and mouse key
+/* Keymap 4: Media and mouse key
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * |        |Bar 1 |Bar 2 |Bar 3 |Bar 4 |Bar 5 |Close |           |      |      |      |      |      |      |        |
@@ -229,14 +230,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [APPL] = LAYOUT_ergodox(
   // left hand
-  KC_TRNS, LWIN(KC_1), LWIN(KC_2), LWIN(KC_3), LWIN(KC_4), LWIN(KC_5), A(KC_F4),
+  KC_TRNS, LWIN(KC_1), LWIN(KC_2), LWIN(KC_3), LWIN(KC_4), LWIN(KC_5), KC_TRNS,
   KC_TRNS, KC_TRNS,    KC_TRNS,    KC_MS_U,    KC_TRNS,    KC_TRNS,    KC_TRNS,
   KC_TRNS, KC_TRNS,    KC_MS_L,    KC_MS_D,    KC_MS_R,    KC_TRNS,
   KC_TRNS, KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
   KC_TRNS, KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-                                                               KC_TRNS, KC_TRNS,  
-                                                                        KC_TRNS,
-                                                      KC_BTN1, KC_BTN2, KC_BTN3,
+                                                              KC_TRNS, KC_TRNS,  
+                                                                       KC_TRNS,
+                                                     KC_BTN1, KC_BTN2, KC_BTN3,
   // right hand
   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,        KC_TRNS,
   KC_TRNS, KC_TRNS, KC_TRNS, KC_WH_U, KC_TRNS, KC_TRNS,        KC_TRNS,
@@ -246,6 +247,48 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TRNS, RESET,
   KC_TRNS,
   KC_TRNS, KC_TRNS, KC_WBAK
+),
+/*********************************************************************************************************************/
+/*********************************************************************************************************************/
+/* Keymap 5: Window layer
+ *
+ * ,--------------------------------------------------.           ,--------------------------------------------------.
+ * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+ * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |      |           |      |      |  ⬓  |      |      |      |        |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |        |      |      |  ❒  |      |      |------|           |------|  ←⎚  |  ▂  |  ⎚→ |      |      |        |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+ * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+ *   |      |      |      |      |      |                                       |      |      |      |      |      |
+ *   `----------------------------------'                                       `----------------------------------'
+ *                                        ,-------------.       ,-------------.
+ *                                        |      |      |       |      |      |
+ *                                 ,------|------|------|       |------+------+------.
+ *                                 |      |      |      |       |      |      |Brwser|
+ *                                 |      |      |------|       |------|      |Back  |
+ *                                 |      |      |      |       |      |      |      |
+ *                                 `--------------------'       `--------------------'
+ */
+[WIND] = LAYOUT_ergodox(
+  KC_TRNS, KC_TRNS, KC_TRNS,       KC_TRNS,       KC_TRNS,        KC_TRNS, KC_TRNS,
+  KC_TRNS, KC_TRNS, KC_TRNS,       LWIN(KC_UP),   A(KC_F4),       KC_TRNS, KC_TRNS,
+  KC_TRNS, KC_TRNS, LWIN(KC_LEFT), LWIN(KC_DOWN), LWIN(KC_RIGHT), KC_TRNS,
+  KC_TRNS, KC_TRNS, KC_TRNS,       KC_TRNS,       KC_TRNS,        KC_TRNS, KC_TRNS,
+  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+                                               KC_TRNS, KC_TRNS,
+                                                        KC_TRNS,
+                                      KC_TRNS, KC_TRNS, KC_TRNS,
+
+  KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,          KC_TRNS,          KC_TRNS, KC_TRNS,
+  KC_TRNS, KC_TRNS, KC_TRNS,          S(LWIN(KC_UP)),   KC_TRNS,          KC_TRNS, KC_TRNS,
+           KC_TRNS, S(LWIN(KC_LEFT)), S(LWIN(KC_DOWN)), S(LWIN(KC_RGHT)), KC_TRNS, KC_TRNS,
+  KC_TRNS, KC_TRNS,          KC_TRNS,          KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS,
+                             KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+  KC_TRNS, KC_TRNS,
+  KC_TRNS,
+  KC_TRNS, KC_TRNS, KC_TRNS
 ),
 };
 
@@ -365,13 +408,13 @@ uint16_t get_tapping_term(uint16_t keycode) {
 //  * ,--------------------------------------------------.           ,--------------------------------------------------.
 //  * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
 //  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-//  * |        |      |      | MsUp |      |      |      |           |      |      |      |      |      |      |        |
+//  * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
 //  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
-//  * |        |      |MsLeft|MsDown|MsRght|      |------|           |------|      |      |      |      |      |  Play  |
+//  * |        |      |      |      |      |      |------|           |------|      |      |      |      |      |        |
 //  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
-//  * |        |      |      |      |      |      |      |           |      |      |      | Prev | Next |      |        |
+//  * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
 //  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-//  *   |      |      |      | Lclk | Rclk |                                       |VolUp |VolDn | Mute |      |      |
+//  *   |      |      |      |      |      |                                       |      |      |      |      |      |
 //  *   `----------------------------------'                                       `----------------------------------'
 //  *                                        ,-------------.       ,-------------.
 //  *                                        |      |      |       |      |      |
