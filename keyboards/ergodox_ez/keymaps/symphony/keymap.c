@@ -11,10 +11,9 @@
 
 
 // Tap-Dance Definitions
-#define TD_SWITCH 0
-#define TD_CPY_CUT 1
-#define TD_BCK_FWD 2
-#define TD_NXT_PRV 3
+#define TD_CPY_CUT 0
+#define TD_BCK_FWD 1
+#define TD_NXT_PRV 2
 
 // Custom Keycodes Definitions
 enum custom_keycodes {
@@ -24,13 +23,18 @@ enum custom_keycodes {
   EPRM = SAFE_RANGE,
 #endif
   VRSN,
-  RGB_SLD
+  RGB_SLD,
+  CU_MINI,
+  CU_MAXI,
+  CU_ATAB
 };
+
+//Variables
+bool is_alt_tab_active = false;
 
 //Tap Dance Definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
   //Tap once for Alt+Tab, Shift+Alt+Tab
-  [TD_SWITCH] = ACTION_TAP_DANCE_DOUBLE(A(KC_TAB), C(A(KC_TAB))),
   [TD_CPY_CUT] = ACTION_TAP_DANCE_DOUBLE(C(KC_C), C(KC_X)),
   [TD_BCK_FWD] = ACTION_TAP_DANCE_DOUBLE(A(KC_LEFT), A(KC_RGHT)),
   [TD_NXT_PRV] = ACTION_TAP_DANCE_DOUBLE(KC_MNXT, KC_MPRV)
@@ -70,11 +74,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                       KC_NO,
                                 LT(NAVI, KC_BSPC), LT(SYMB, KC_DEL), KC_APP,
 
-  KC_NO,     KC_NO,       KC_NO,          KC_NO,         KC_NO,        KC_NO,   KC_LWIN,
-  KC_NO,     KC_Y,        KC_U,           KC_I,          KC_O,         KC_P,    KC_BSLS,
-             KC_H,        RSFT_T(KC_J),   RCTL_T(KC_K),  RALT_T(KC_L), KC_SCLN, KC_QUOT,
-  KC_NO,     KC_B,        KC_N,           KC_M,          KC_COMM,      KC_DOT,  KC_MINS, 
-  C(KC_TAB), C(S(KC_TAB)), TD(TD_BCK_FWD), TD(TD_SWITCH), KC_NO,
+  KC_NO,     KC_NO,        KC_NO,          KC_NO,         KC_NO,        KC_NO,   KC_LWIN,
+  KC_NO,     KC_Y,         KC_U,           KC_I,          KC_O,         KC_P,    KC_BSLS,
+             KC_H,         RSFT_T(KC_J),   RCTL_T(KC_K),  RALT_T(KC_L), KC_SCLN, KC_QUOT,
+  KC_NO,     KC_B,         KC_N,           KC_M,          KC_COMM,      KC_DOT,  KC_MINS, 
+  C(KC_TAB), C(S(KC_TAB)), TD(TD_BCK_FWD), CU_ATAB, KC_NO,
   KC_NO, KC_NO,
   KC_NO,
   KC_TAB, LT(WIND, KC_ENT), LT(APPL, KC_SPC)
@@ -221,7 +225,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   |      |      |      |      |      |                                       |VolDn |VolUp | Mute |NxtPrv|      |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
- *                                        |      |      |       |      | Reset|
+ *                                        |      |      |       | Debug| Reset|
  *                                 ,------|------|------|       |------+------+------.
  *                                 | Left | Right|      |       |      |      |      |
  *                                 | Click| Click|------|       |------|      |      |
@@ -266,8 +270,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                        ,-------------.       ,-------------.
  *                                        |      |      |       |      |      |
  *                                 ,------|------|------|       |------+------+------.
- *                                 |      |      |      |       |      |      |Brwser|
- *                                 |      |      |------|       |------|      |Back  |
+ *                                 |      |      |      |       |      |      |      |
+ *                                 |      |      |------|       |------|      |      |
  *                                 |      |      |      |       |      |      |      |
  *                                 `--------------------'       `--------------------'
  */
@@ -276,16 +280,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TRNS, KC_TRNS, KC_TRNS,       LWIN(KC_UP),   A(KC_F4),       KC_TRNS, KC_TRNS,
   KC_TRNS, KC_TRNS, LWIN(KC_LEFT), LWIN(KC_DOWN), LWIN(KC_RIGHT), KC_TRNS,
   KC_TRNS, KC_TRNS, KC_TRNS,       KC_TRNS,       KC_TRNS,        KC_TRNS, KC_TRNS,
-  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-                                               KC_TRNS, KC_TRNS,
-                                                        KC_TRNS,
-                                      KC_TRNS, KC_TRNS, KC_TRNS,
-
-  KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,          KC_TRNS,          KC_TRNS, KC_TRNS,
-  KC_TRNS, KC_TRNS, KC_TRNS,          S(LWIN(KC_UP)),   KC_TRNS,          KC_TRNS, KC_TRNS,
-           KC_TRNS, S(LWIN(KC_LEFT)), S(LWIN(KC_DOWN)), S(LWIN(KC_RGHT)), KC_TRNS, KC_TRNS,
-  KC_TRNS, KC_TRNS,          KC_TRNS,          KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS,
-                             KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+  KC_TRNS, KC_TRNS, KC_TRNS,       KC_TRNS,       KC_TRNS,
+                                                                  KC_TRNS, KC_TRNS,
+                                                                           KC_TRNS,
+                                                         KC_TRNS, KC_TRNS, KC_TRNS,
+ 
+  KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS,
+  KC_TRNS, KC_TRNS, KC_TRNS,          CU_MAXI, KC_TRNS,          KC_TRNS, KC_TRNS,
+           KC_TRNS, S(LWIN(KC_LEFT)), CU_MINI, S(LWIN(KC_RGHT)), KC_TRNS, KC_TRNS,
+  KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS,
+                    KC_TRNS,          KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS,
   KC_TRNS, KC_TRNS,
   KC_TRNS,
   KC_TRNS, KC_TRNS, KC_TRNS
@@ -308,9 +312,35 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       #endif
     }
   }
+  switch (keycode){
+    case CU_MINI:
+    if (record->event.pressed) {
+      register_code(KC_LWIN);
+      tap_code(KC_DOWN);
+      tap_code(KC_DOWN);
+      unregister_code(KC_LWIN);
+    }
+    return false;
+  case CU_MAXI:
+    if (record->event.pressed) {
+      tap_code16(LWIN(KC_UP));
+    }
+    return false;
+  case CU_ATAB:
+    if (record->event.pressed){
+      if (!is_alt_tab_active){
+        is_alt_tab_active = true;
+        register_code(KC_LALT);
+        tap_code(KC_TAB);
+      }
+    } else {
+      is_alt_tab_active = false;
+      unregister_code(KC_LALT);
+    }
+    return false;
+  }
   return true;
 }
-
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
 #ifdef RGBLIGHT_COLOR_LAYER_0
