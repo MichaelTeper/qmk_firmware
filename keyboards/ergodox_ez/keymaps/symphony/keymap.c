@@ -31,6 +31,7 @@ enum custom_keycodes {
 
 //Variables
 bool is_alt_tab_active = false;
+bool is_caps_locked = false;
 
 //Tap Dance Definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
@@ -46,7 +47,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Root layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * | Escape |      |      |      |      |      |      |           |      |      |      |      |      |      |   ⊞   |
+ * | Escape |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |           |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |   ⊞   |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
  * |  Caps  |   Q  |   W  |   E  |   R  |   T  |      |           |      |   Y  |   U  |   I  |   O  |   P  |    \   |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
@@ -65,7 +66,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 `--------------------'       `--------------------'
  */
 [ROOT] = LAYOUT_ergodox(
-  KC_ESC,   KC_NO,   KC_NO,       KC_NO,          KC_NO,       KC_NO, KC_NO,
+  KC_ESC,   KC_F1,   KC_F2,       KC_F3,          KC_F4,       KC_F5, KC_F6,
   KC_CAPS,  KC_Q,    KC_W,        KC_E,           KC_R,        KC_T,  KC_NO,
   KC_EQL,   KC_A,    ALT_T(KC_S), CTL_T(KC_D),    SFT_T(KC_F), KC_G,
   TG(PASS), KC_SLSH, KC_Z,        KC_X,           KC_C,        KC_V,  KC_NO,
@@ -74,7 +75,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                       KC_NO,
                                 LT(NAVI, KC_BSPC), LT(SYMB, KC_DEL), KC_APP,
 
-  KC_NO,     KC_NO,        KC_NO,          KC_NO,         KC_NO,        KC_NO,   KC_LWIN,
+  KC_F7,     KC_F8,        KC_F9,          KC_F10,        KC_F11,       KC_F12,  KC_LWIN,
   KC_NO,     KC_Y,         KC_U,           KC_I,          KC_O,         KC_P,    KC_BSLS,
              KC_H,         RSFT_T(KC_J),   RCTL_T(KC_K),  RALT_T(KC_L), KC_SCLN, KC_QUOT,
   KC_NO,     KC_B,         KC_N,           KC_M,          KC_COMM,      KC_DOT,  KC_MINS, 
@@ -313,34 +314,45 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
   }
   switch (keycode){
-    case CU_MINI:
-    if (record->event.pressed) {
-      register_code(KC_LWIN);
-      tap_code(KC_DOWN);
-      tap_code(KC_DOWN);
-      unregister_code(KC_LWIN);
-    }
-    return false;
-  case CU_MAXI:
-    if (record->event.pressed) {
-      tap_code16(LWIN(KC_UP));
-    }
-    return false;
-  case CU_ATAB:
-    if (record->event.pressed){
-      if (!is_alt_tab_active){
-        is_alt_tab_active = true;
-        register_code(KC_LALT);
-        tap_code(KC_TAB);
+    case KC_CAPS:
+      if (record->event.pressed){
+        is_caps_locked = !is_caps_locked;
+        if (is_caps_locked) {
+          ergodox_right_led_1_on();
+        } else {
+          ergodox_right_led_1_off();
+        }
       }
-    } else {
-      is_alt_tab_active = false;
-      unregister_code(KC_LALT);
-    }
-    return false;
+      return true;
+    case CU_MINI:
+      if (record->event.pressed) {
+        register_code(KC_LWIN);
+        tap_code(KC_DOWN);
+        tap_code(KC_DOWN);
+        unregister_code(KC_LWIN);
+      }
+      return false;
+    case CU_MAXI:
+      if (record->event.pressed) {
+        tap_code16(LWIN(KC_UP));
+      }
+      return false;
+    case CU_ATAB:
+      if (record->event.pressed){
+        if (!is_alt_tab_active){
+          is_alt_tab_active = true;
+          register_code(KC_LALT);
+          tap_code(KC_TAB);
+        }
+      } else {
+        is_alt_tab_active = false;
+        unregister_code(KC_LALT);
+      }
+      return false;
   }
   return true;
 }
+
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
 #ifdef RGBLIGHT_COLOR_LAYER_0
@@ -433,7 +445,7 @@ uint16_t get_tapping_term(uint16_t keycode) {
 
 // /*********************************************************************************************************************/
 // /*********************************************************************************************************************/
-// /* Keymap 2: Text navigation layer
+// /* Keymap 0: 
 //  *
 //  * ,--------------------------------------------------.           ,--------------------------------------------------.
 //  * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
