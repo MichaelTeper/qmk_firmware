@@ -29,6 +29,19 @@ enum custom_keycodes {
   CU_ATAB
 };
 
+#define SY_F SFT_T(KC_F)
+#define SY_D CTL_T(KC_D)
+#define SY_S ALT_T(KC_S)
+#define SY_J RSFT_T(KC_J)
+#define SY_K RCTL_T(KC_K)
+#define SY_L RALT_T(KC_L)
+#define SY_COPY TD(TD_CPY_CUT)
+#define SY_ENT LT(WIND, KC_ENT)
+#define SY_BSPC LT(NAVI, KC_BSPC)
+#define SY_DEL LT(SYMB, KC_DEL)
+#define SY_SPC LT(APPL, KC_SPC)
+
+
 //Variables
 bool is_alt_tab_active = false;
 bool is_caps_locked = false;
@@ -66,23 +79,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 `--------------------'       `--------------------'
  */
 [ROOT] = LAYOUT_ergodox(
-  KC_ESC,   KC_F1,   KC_F2,       KC_F3,          KC_F4,       KC_F5, KC_F6,
-  KC_CAPS,  KC_Q,    KC_W,        KC_E,           KC_R,        KC_T,  KC_NO,
-  KC_EQL,   KC_A,    ALT_T(KC_S), CTL_T(KC_D),    SFT_T(KC_F), KC_G,
-  TG(PASS), KC_SLSH, KC_Z,        KC_X,           KC_C,        KC_V,  KC_NO,
-  KC_NO,    C(KC_Z), C(S(KC_Z)),  TD(TD_CPY_CUT), C(KC_V),
-                                                              KC_NO,  KC_NO,
-                                                                      KC_NO,
-                                LT(NAVI, KC_BSPC), LT(SYMB, KC_DEL), KC_APP,
+  KC_ESC,   KC_F1,   KC_F2,      KC_F3,   KC_F4,   KC_F5, KC_F6,
+  KC_CAPS,  KC_Q,    KC_W,       KC_E,    KC_R,    KC_T,  KC_NO,
+  KC_EQL,   KC_A,    SY_S,       SY_D,    SY_F,    KC_G,
+  TG(PASS), KC_SLSH, KC_Z,       KC_X,    KC_C,    KC_V,  KC_NO,
+  KC_NO,    C(KC_Z), C(S(KC_Z)), SY_COPY, C(KC_V),
+                                                  KC_NO,  KC_NO,
+                                                          KC_NO,
+                                        SY_BSPC, SY_DEL, KC_APP,
 
-  KC_F7,     KC_F8,        KC_F9,          KC_F10,        KC_F11,       KC_F12,  KC_LWIN,
-  KC_NO,     KC_Y,         KC_U,           KC_I,          KC_O,         KC_P,    KC_BSLS,
-             KC_H,         RSFT_T(KC_J),   RCTL_T(KC_K),  RALT_T(KC_L), KC_SCLN, KC_QUOT,
-  KC_NO,     KC_B,         KC_N,           KC_M,          KC_COMM,      KC_DOT,  KC_MINS, 
+  KC_F7,     KC_F8,        KC_F9,          KC_F10,  KC_F11,  KC_F12,  KC_LWIN,
+  KC_NO,     KC_Y,         KC_U,           KC_I,    KC_O,    KC_P,    KC_BSLS,
+             KC_H,         SY_J,           SY_K,    SY_L,    KC_SCLN, KC_QUOT,
+  KC_NO,     KC_B,         KC_N,           KC_M,    KC_COMM, KC_DOT,  KC_MINS, 
   C(KC_TAB), C(S(KC_TAB)), TD(TD_BCK_FWD), CU_ATAB, KC_NO,
   KC_NO, KC_NO,
   KC_NO,
-  KC_TAB, LT(WIND, KC_ENT), LT(APPL, KC_SPC)
+  KC_TAB, SY_ENT, SY_SPC
 ),  
 /*********************************************************************************************************************/
 /*********************************************************************************************************************/
@@ -137,7 +150,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |         |   #  |   $  |   (  |   )  |   `  |------|           |------|   |  |   4  |   5  |   6  |   +  |        |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |         |   %  |   ^  |   [  |   ]  |   ~  |      |           |      |   &  |   1  |   2  |   3  |   \  |        |
+ * |         |   %  |   ^  |   [  |   ]  |   ~  |      |           |      |   &  |   1  |   2  |   3  |   .  |        |
  * `---------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   | EPRM  |      |      |      |      |                                       |   0  |    . |      |   =  |      |
  *   `-----------------------------------'                                       `----------------------------------'
@@ -162,7 +175,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
   KC_TRNS, KC_EXLM, KC_7,    KC_8,    KC_9,    KC_ASTR, KC_TRNS,
            KC_PIPE, KC_4,    KC_5,    KC_6,    KC_PLUS, KC_TRNS,
-  KC_TRNS, KC_AMPR, KC_1,    KC_2,    KC_3,    KC_BSLS, KC_TRNS,
+  KC_TRNS, KC_AMPR, KC_1,    KC_2,    KC_3,    KC_DOT,  KC_TRNS,
   KC_0,    KC_DOT,  KC_TRNS, KC_EQL,  KC_TRNS,
   KC_TRNS, KC_TRNS,
   KC_TRNS,
@@ -297,23 +310,42 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 };
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (record->event.pressed) {
-    switch (keycode) {
-      case EPRM:
-        eeconfig_init();
-        return false;
-      case VRSN:
-        SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
-        return false;
-      #ifdef RGBLIGHT_ENABLE
-      case RGB_SLD:
-        rgblight_mode(1);
-        return false;
-      #endif
-    }
+uint16_t get_tapping_term(uint16_t keycode) {
+  switch (keycode) {
+    case KC_LSFT:
+      return 140; 
+    case KC_RSFT:
+      return 100;
+    default:
+      return TAPPING_TERM;
   }
-  switch (keycode){
+}
+
+bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case SY_F:
+      return true;
+    case SY_D:
+      return true;
+    case SY_S:
+      return true;
+    case SY_J:
+      return true;
+    case SY_K:
+      return true;
+    case SY_L:
+      return true;
+    case SY_ENT:
+      return true;
+    case SY_SPC:
+      return true;
+    default:
+      return false;
+  }
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
     case KC_CAPS:
       if (record->event.pressed){
         is_caps_locked = !is_caps_locked;
@@ -334,7 +366,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return false;
     case CU_MAXI:
       if (record->event.pressed) {
-        tap_code16(LWIN(KC_UP));
+        register_code(KC_LWIN);
+        tap_code(KC_UP);
+        tap_code(KC_UP);
+        unregister_code(KC_LWIN);
       }
       return false;
     case CU_ATAB:
@@ -349,8 +384,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         unregister_code(KC_LALT);
       }
       return false;
+    case EPRM:
+      if (record->event.pressed) {
+        eeconfig_init();
+        return false;
+      }
+    case VRSN:
+      if (record->event.pressed) {
+        SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
+        return false;
+      }
+    default:
+      return true;
   }
-  return true;
 }
 
 // Runs just one time when the keyboard initializes.
@@ -432,16 +478,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
   return state;
 };
 
-uint16_t get_tapping_term(uint16_t keycode) {
-  switch (keycode) {
-    case SFT_T(KC_F):
-      return 140; 
-    case RSFT_T(KC_J):
-      return 100;
-    default:
-      return TAPPING_TERM;
-  }
-}
+
 
 // /*********************************************************************************************************************/
 // /*********************************************************************************************************************/
