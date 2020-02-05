@@ -26,7 +26,7 @@ enum custom_keycodes {
   RGB_SLD,
   CU_MINI,
   CU_MAXI,
-  CU_ATAB
+  CU_ATAB,
 };
 
 #define SY_F SFT_T(KC_F)
@@ -40,11 +40,15 @@ enum custom_keycodes {
 #define SY_BSPC LT(NAVI, KC_BSPC)
 #define SY_DEL LT(SYMB, KC_DEL)
 #define SY_SPC LT(APPL, KC_SPC)
+#define SY_FOLD C(S(KC_LBRC))
+#define SY_UFLD C(S(KC_RBRC))
 
 
 //Variables
 bool is_alt_tab_active = false;
 bool is_caps_locked = false;
+uint16_t blink_timer = 0;
+bool blink = false;
 
 //Tap Dance Definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
@@ -68,7 +72,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |  TEST  |   /  |   Z  |   X  |   C  |   V  |      |           |      |   B  |   N  |   M  |   ,  |   .  |    -   |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |      | Undo | Redo |CpyCut| Paste|                                       | Prev | Ahead|BckFwd|Switch|      |
+ *   |      | Undo | Redo |CpyCut| Paste|                                       | Prev | Ahead|BckFwd|Switch|Repeat|
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
  *                                        |      |      |       |      |      |
@@ -99,18 +103,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),  
 /*********************************************************************************************************************/
 /*********************************************************************************************************************/
-/* Keymap 1: Text navigation layer
+/* Keymap 1: Test
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * |        |      |      | MsUp |      |      |      |           |      |      |      |      |      |      |        |
+ * |        |      |      |      |      |      |      |           |      |      |      |  Up  |      |      |        |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |      |MsLeft|MsDown|MsRght|      |------|           |------|      |      |      |      |      |  Play  |
+ * |        |      |      | Ctrl | Shift|      |------|           |------| WLeft| Left | Down | Right|WRight|        |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |      |      |      |      |      |      |           |      |      |      | Prev | Next |      |        |
+ * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |      |      |      | Lclk | Rclk |                                       |VolUp |VolDn | Mute |      |      |
+ *   |      |      |      |      |      |                                       |      |      |      |      |      |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
  *                                        |      |      |       |      |      |
@@ -188,13 +192,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * |        |      |      | MsUp |      |      |      |           |      |      |      |      |      |      |        |
- * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |      |MsLeft|MsDown|MsRght|      |------|           |------|      |      |      |      |      |  Play  |
- * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |      |      |      |      |      |      |           |      |      |      | Prev | Next |      |        |
+ * |        |      |      | Fold |UnFold|      |      |           |Cursor|      | Home |  Up  |  End |      |        |
+ * |--------+------+------+------+------+------|      |           | Above|------+------+------+------+------+--------|
+ * |        |      |      | Ctrl | Shift|      |------|           |------| WLeft| Left | Down | Right|WRight|        |
+ * |--------+------+------+------+------+------|      |           |Cursor|------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |      |           | Below|      |      |      |      |      |        |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |      |      |      | Lclk | Rclk |                                       |VolUp |VolDn | Mute |      |      |
+ *   |      |      |      |      |      |                                       |      |      |      |      |      |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
  *                                        |      |      |       |      |      |
@@ -206,8 +210,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [NAVI] = LAYOUT_ergodox(
   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+  KC_TRNS, KC_TRNS, KC_TRNS, SY_FOLD, SY_UFLD, KC_TRNS, KC_TRNS,
+  KC_TRNS, KC_TRNS, KC_TRNS, KC_LCTL, KC_LSFT, KC_TRNS,
   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
                                                KC_TRNS, KC_TRNS,
@@ -218,7 +222,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   C(S(KC_UP)),   KC_TRNS,    KC_HOME, KC_UP,   KC_END,  KC_TRNS,    KC_TRNS,
                  C(KC_LEFT), KC_LEFT, KC_DOWN, KC_RGHT, C(KC_RGHT), KC_TRNS,
   C(S(KC_DOWN)), KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,    KC_TRNS,
-                             KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+                             KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,    KC_TRNS,
   KC_TRNS, KC_TRNS,
   KC_TRNS,
   KC_TRNS, KC_TRNS, KC_TRNS
@@ -312,9 +316,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 uint16_t get_tapping_term(uint16_t keycode) {
   switch (keycode) {
-    case KC_LSFT:
+    case SY_F:
       return 140; 
-    case KC_RSFT:
+    case SY_J:
       return 100;
     default:
       return TAPPING_TERM;
@@ -349,11 +353,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case KC_CAPS:
       if (record->event.pressed){
         is_caps_locked = !is_caps_locked;
-        if (is_caps_locked) {
-          ergodox_right_led_1_on();
-        } else {
-          ergodox_right_led_1_off();
-        }
       }
       return true;
     case CU_MINI:
@@ -401,15 +400,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
+  blink_timer = timer_read();
 #ifdef RGBLIGHT_COLOR_LAYER_0
   rgblight_setrgb(RGBLIGHT_COLOR_LAYER_0);
 #endif
 };
 
+void matrix_scan_user(void) {
+  if (timer_elapsed(blink_timer) > 500) {
+    blink_timer = timer_read();
+    blink = !blink;
+    if (is_caps_locked) {
+      blink ? ergodox_right_led_1_on() : ergodox_right_led_1_off();
+    }
+  }
+}
+
 // Runs whenever there is a layer state change.
 layer_state_t layer_state_set_user(layer_state_t state) {
   ergodox_board_led_off();
-  ergodox_right_led_1_off();
+  if (!is_caps_locked) ergodox_right_led_1_off();
   ergodox_right_led_2_off();
   ergodox_right_led_3_off();
 
