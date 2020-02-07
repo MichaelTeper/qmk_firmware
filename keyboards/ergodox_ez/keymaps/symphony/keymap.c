@@ -295,7 +295,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [WIND] = LAYOUT_ergodox(
   KC_TRNS, KC_TRNS, KC_TRNS,       KC_TRNS,       KC_TRNS,        KC_TRNS, KC_TRNS,
-  KC_TRNS, KC_TRNS, KC_TRNS,       LWIN(KC_UP),   A(KC_F4),       KC_TRNS, KC_TRNS,
+  KC_TRNS, KC_TRNS, KC_TRNS,       LWIN(KC_UP),   C(KC_W),        KC_TRNS, KC_TRNS,
   KC_TRNS, KC_TRNS, LWIN(KC_LEFT), LWIN(KC_DOWN), LWIN(KC_RIGHT), KC_TRNS,
   KC_TRNS, KC_TRNS, KC_TRNS,       KC_TRNS,       KC_TRNS,        KC_TRNS, KC_TRNS,
   KC_TRNS, KC_TRNS, KC_TRNS,       KC_TRNS,       KC_TRNS,
@@ -304,7 +304,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                          KC_TRNS, KC_TRNS, KC_TRNS,
  
   KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS,
-  KC_TRNS, KC_TRNS, KC_TRNS,          CU_MAXI, KC_TRNS,          KC_TRNS, KC_TRNS,
+  KC_TRNS, KC_TRNS, KC_TRNS,          CU_MAXI, A(KC_F4),         KC_TRNS, KC_TRNS,
            KC_TRNS, S(LWIN(KC_LEFT)), CU_MINI, S(LWIN(KC_RGHT)), KC_TRNS, KC_TRNS,
   KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS,
                     KC_TRNS,          KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS,
@@ -353,6 +353,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case KC_CAPS:
       if (record->event.pressed){
         is_caps_locked = !is_caps_locked;
+        if (!is_caps_locked) ergodox_right_led_1_off();
       }
       return true;
     case CU_MINI:
