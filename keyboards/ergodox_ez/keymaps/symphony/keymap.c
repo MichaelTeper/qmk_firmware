@@ -9,12 +9,6 @@
 #define APPL 4 // media keys and mouse
 #define WIND 5 // Window
 
-
-// Tap-Dance Definitions
-#define TD_CPY_CUT 0
-#define TD_BCK_FWD 1
-#define TD_NXT_PRV 2
-
 // Custom Keycodes Definitions
 enum custom_keycodes {
 #ifdef ORYX_CONFIGURATOR
@@ -27,6 +21,7 @@ enum custom_keycodes {
   CU_MINI,
   CU_MAXI,
   CU_ATAB,
+  CU_STCK,
 };
 
 #define SY_F SFT_T(KC_F)
@@ -43,14 +38,37 @@ enum custom_keycodes {
 #define SY_FOLD C(S(KC_LBRC))
 #define SY_UFLD C(S(KC_RBRC))
 
+//Combo Definitions
+enum combos{
+  STCK_SYMB,
+  STCK_NAVI,
+  STCK_APPL,
+  STCK_WIND,
+};
+
+const uint16_t PROGMEM stick_symb_combo[] = {CU_STCK, SY_DEL, COMBO_END};
+const uint16_t PROGMEM stick_navi_combo[] = {CU_STCK, SY_BSPC, COMBO_END};
+const uint16_t PROGMEM stick_appl_combo[] = {CU_STCK, SY_SPC, COMBO_END};
+const uint16_t PROGMEM stick_wind_combo[] = {CU_STCK, SY_ENT, COMBO_END};
+
+combo_t key_combos[COMBO_COUNT] = {
+  [STCK_SYMB] = COMBO_ACTION(stick_symb_combo),
+  [STCK_NAVI] = COMBO_ACTION(stick_navi_combo),
+  [STCK_APPL] = COMBO_ACTION(stick_appl_combo),
+  [STCK_WIND] = COMBO_ACTION(stick_wind_combo)
+};
 
 //Variables
-bool is_alt_tab_active = false;
-bool is_caps_locked = false;
+bool alt_tab_active = false;
+bool caps_locked = false;
 uint16_t blink_timer = 0;
 bool blink = false;
 
 //Tap Dance Definitions
+#define TD_CPY_CUT 0
+#define TD_BCK_FWD 1
+#define TD_NXT_PRV 2
+
 qk_tap_dance_action_t tap_dance_actions[] = {
   //Tap once for Alt+Tab, Shift+Alt+Tab
   [TD_CPY_CUT] = ACTION_TAP_DANCE_DOUBLE(C(KC_C), C(KC_X)),
@@ -72,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |  TEST  |   /  |   Z  |   X  |   C  |   V  |      |           |      |   B  |   N  |   M  |   ,  |   .  |    -   |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |      | Undo | Redo |CpyCut| Paste|                                       | Prev | Ahead|BckFwd|Switch|Repeat|
+ *   | Stick| Undo | Redo |CpyCut| Paste|                                       | Prev | Ahead|BckFwd|Switch| Stick|
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
  *                                        |      |      |       |      |      |
@@ -87,7 +105,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_CAPS,  KC_Q,    KC_W,       KC_E,    KC_R,    KC_T,  KC_NO,
   KC_EQL,   KC_A,    SY_S,       SY_D,    SY_F,    KC_G,
   TG(PASS), KC_SLSH, KC_Z,       KC_X,    KC_C,    KC_V,  KC_NO,
-  KC_NO,    C(KC_Z), C(S(KC_Z)), SY_COPY, C(KC_V),
+  CU_STCK,  C(KC_Z), C(S(KC_Z)), SY_COPY, C(KC_V),
                                                   KC_NO,  KC_NO,
                                                           KC_NO,
                                         SY_BSPC, SY_DEL, KC_APP,
@@ -96,7 +114,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_NO,     KC_Y,         KC_U,           KC_I,    KC_O,    KC_P,    KC_BSLS,
              KC_H,         SY_J,           SY_K,    SY_L,    KC_SCLN, KC_QUOT,
   KC_NO,     KC_B,         KC_N,           KC_M,    KC_COMM, KC_DOT,  KC_MINS, 
-  C(KC_TAB), C(S(KC_TAB)), TD(TD_BCK_FWD), CU_ATAB, KC_NO,
+  C(KC_TAB), C(S(KC_TAB)), TD(TD_BCK_FWD), CU_ATAB, CU_STCK,
   KC_NO, KC_NO,
   KC_NO,
   KC_TAB, SY_ENT, SY_SPC
@@ -171,7 +189,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TRNS, KC_EXLM, KC_AT,   KC_LCBR, KC_RCBR, KC_PIPE, KC_TRNS,
   KC_TRNS, KC_HASH, KC_DLR,  KC_LPRN, KC_RPRN, KC_GRV,
   KC_TRNS, KC_PERC, KC_CIRC, KC_LBRC, KC_RBRC, KC_TILD, KC_TRNS,
-  EPRM,    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
                                                KC_TRNS, KC_TRNS,
                                                         KC_TRNS,
                                       KC_TRNS, KC_TRNS, KC_TRNS,
@@ -323,7 +341,7 @@ uint16_t get_tapping_term(uint16_t keycode) {
     default:
       return TAPPING_TERM;
   }
-}
+} 
 
 bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
@@ -348,16 +366,48 @@ bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
   }
 }
 
+void process_combo_event(uint8_t combo_index, bool pressed) {
+  switch(combo_index) {
+    case STCK_APPL:
+      if (pressed) {
+        layer_move(APPL);
+      }
+      break;
+    case STCK_NAVI:
+      if (pressed) {
+        layer_move(NAVI);
+      }
+      break;
+    case STCK_SYMB:
+      if (pressed) {
+        layer_move(SYMB);
+      }
+      break;
+    case STCK_WIND:
+      if (pressed) {
+        layer_move(WIND);
+      }
+      break;
+  }
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
+    //Keycode Extentions
     case KC_CAPS:
       if (record->event.pressed){
-        is_caps_locked = !is_caps_locked;
-        if (!is_caps_locked) ergodox_right_led_1_off();
+        caps_locked = !caps_locked;
+        if (!caps_locked) ergodox_right_led_1_off();
+      }
+      return true;
+    //Custom Keycodes
+    case CU_STCK:
+      if (record->event.pressed){
+        layer_clear();
       }
       return true;
     case CU_MINI:
-      if (record->event.pressed) {
+      if (record->event.pressed){
         register_code(KC_LWIN);
         tap_code(KC_DOWN);
         tap_code(KC_DOWN);
@@ -365,7 +415,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
     case CU_MAXI:
-      if (record->event.pressed) {
+      if (record->event.pressed){
         register_code(KC_LWIN);
         tap_code(KC_UP);
         tap_code(KC_UP);
@@ -374,13 +424,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return false;
     case CU_ATAB:
       if (record->event.pressed){
-        if (!is_alt_tab_active){
-          is_alt_tab_active = true;
+        if (!alt_tab_active){
+          alt_tab_active = true;
           register_code(KC_LALT);
           tap_code(KC_TAB);
         }
       } else {
-        is_alt_tab_active = false;
+        alt_tab_active = false;
         unregister_code(KC_LALT);
       }
       return false;
@@ -411,7 +461,7 @@ void matrix_scan_user(void) {
   if (timer_elapsed(blink_timer) > 500) {
     blink_timer = timer_read();
     blink = !blink;
-    if (is_caps_locked) {
+    if (caps_locked) {
       blink ? ergodox_right_led_1_on() : ergodox_right_led_1_off();
     }
   }
@@ -420,7 +470,7 @@ void matrix_scan_user(void) {
 // Runs whenever there is a layer state change.
 layer_state_t layer_state_set_user(layer_state_t state) {
   ergodox_board_led_off();
-  if (!is_caps_locked) ergodox_right_led_1_off();
+  if (!caps_locked) ergodox_right_led_1_off();
   ergodox_right_led_2_off();
   ergodox_right_led_3_off();
 
