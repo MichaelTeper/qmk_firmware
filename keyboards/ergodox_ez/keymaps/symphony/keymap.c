@@ -21,7 +21,7 @@ enum custom_keycodes {
   CU_MINI,
   CU_MAXI,
   CU_ATAB,
-  CU_STCK,
+  CU_LLCK,
 };
 
 #define SY_F SFT_T(KC_F)
@@ -38,29 +38,10 @@ enum custom_keycodes {
 #define SY_FOLD C(S(KC_LBRC))
 #define SY_UFLD C(S(KC_RBRC))
 
-//Combo Definitions
-enum combos{
-  STCK_SYMB,
-  STCK_NAVI,
-  STCK_APPL,
-  STCK_WIND,
-};
-
-const uint16_t PROGMEM stick_symb_combo[] = {CU_STCK, SY_DEL, COMBO_END};
-const uint16_t PROGMEM stick_navi_combo[] = {CU_STCK, SY_BSPC, COMBO_END};
-const uint16_t PROGMEM stick_appl_combo[] = {CU_STCK, SY_SPC, COMBO_END};
-const uint16_t PROGMEM stick_wind_combo[] = {CU_STCK, SY_ENT, COMBO_END};
-
-combo_t key_combos[COMBO_COUNT] = {
-  [STCK_SYMB] = COMBO_ACTION(stick_symb_combo),
-  [STCK_NAVI] = COMBO_ACTION(stick_navi_combo),
-  [STCK_APPL] = COMBO_ACTION(stick_appl_combo),
-  [STCK_WIND] = COMBO_ACTION(stick_wind_combo)
-};
-
 //Variables
 bool alt_tab_active = false;
 bool caps_locked = false;
+bool layer_locked = false;
 uint16_t blink_timer = 0;
 bool blink = false;
 
@@ -366,31 +347,6 @@ bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
   }
 }
 
-void process_combo_event(uint8_t combo_index, bool pressed) {
-  switch(combo_index) {
-    case STCK_APPL:
-      if (pressed) {
-        layer_move(APPL);
-      }
-      break;
-    case STCK_NAVI:
-      if (pressed) {
-        layer_move(NAVI);
-      }
-      break;
-    case STCK_SYMB:
-      if (pressed) {
-        layer_move(SYMB);
-      }
-      break;
-    case STCK_WIND:
-      if (pressed) {
-        layer_move(WIND);
-      }
-      break;
-  }
-}
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     //Keycode Extentions
@@ -400,10 +356,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (!caps_locked) ergodox_right_led_1_off();
       }
       return true;
+    case SY_BSPC:
+      return !layer_locked;
+    case SY_DEL:
+      return !layer_locked;
+    case SY_SPC :
+      return !layer_locked;
+    case SY_ENT:
+      return !layer_locked;
     //Custom Keycodes
-    case CU_STCK:
+    case CU_LLCK:
       if (record->event.pressed){
-        layer_clear();
+        layer_locked = !layer_locked;
+        if (!layer_locked){
+          layer_move(ROOT);
+        }
+        return false;
       }
       return true;
     case CU_MINI:
