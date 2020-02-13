@@ -86,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_CAPS,  KC_Q,    KC_W,       KC_E,    KC_R,    KC_T,  KC_NO,
   KC_EQL,   KC_A,    SY_S,       SY_D,    SY_F,    KC_G,
   TG(PASS), KC_SLSH, KC_Z,       KC_X,    KC_C,    KC_V,  KC_NO,
-  CU_STCK,  C(KC_Z), C(S(KC_Z)), SY_COPY, C(KC_V),
+  CU_LLCK,  C(KC_Z), C(S(KC_Z)), SY_COPY, C(KC_V),
                                                   KC_NO,  KC_NO,
                                                           KC_NO,
                                         SY_BSPC, SY_DEL, KC_APP,
@@ -95,7 +95,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_NO,     KC_Y,         KC_U,           KC_I,    KC_O,    KC_P,    KC_BSLS,
              KC_H,         SY_J,           SY_K,    SY_L,    KC_SCLN, KC_QUOT,
   KC_NO,     KC_B,         KC_N,           KC_M,    KC_COMM, KC_DOT,  KC_MINS, 
-  C(KC_TAB), C(S(KC_TAB)), TD(TD_BCK_FWD), CU_ATAB, CU_STCK,
+  C(KC_TAB), C(S(KC_TAB)), TD(TD_BCK_FWD), CU_ATAB, CU_LLCK,
   KC_NO, KC_NO,
   KC_NO,
   KC_TAB, SY_ENT, SY_SPC
