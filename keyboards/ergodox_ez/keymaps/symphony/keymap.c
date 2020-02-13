@@ -367,13 +367,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     //Custom Keycodes
     case CU_LLCK:
       if (record->event.pressed){
-        layer_locked = !layer_locked;
+        layer_locked = !layer_state_is(ROOT) && !layer_locked;
         if (!layer_locked){
           layer_move(ROOT);
         }
         return false;
       }
-      return true;
     case CU_MINI:
       if (record->event.pressed){
         register_code(KC_LWIN);
