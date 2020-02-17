@@ -350,6 +350,12 @@ bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     //Keycode Extentions
+    case KC_ENT:
+      if (record->event.pressed && layer_state_is(PASS)){
+        tap_code(KC_ENT);
+          layer_clear();
+      }
+      return false;
     case KC_CAPS:
       if (record->event.pressed){
         caps_locked = !caps_locked;
@@ -369,7 +375,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed){
         layer_locked = !layer_state_is(ROOT) && !layer_locked;
         if (!layer_locked){
-          layer_move(ROOT);
+          layer_clear();
         }
         return false;
       }
