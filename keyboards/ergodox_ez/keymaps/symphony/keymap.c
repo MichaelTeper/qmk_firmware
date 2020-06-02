@@ -4,12 +4,12 @@
 // Layer Definitions
 #define ROOT 0 // root
 #define PASS 1 // pass
-#define VIRT 1 // vim insert mode
-#define VISY 1 // vim command mode
-#define SYMB 2 // symbols
-#define NAVI 3 // text navigation
-#define APPL 4 // media keys and mouse
-#define WIND 5 // Window
+#define VIRT 2 // vim insert mode
+#define VISY 3 // vim command mode
+#define SYMB 4 // symbols
+#define NAVI 5 // text navigation
+#define APPL 6 // media keys and mouse
+#define WIND 7 // window
 
 // Custom Keycodes Definitions
 enum custom_keycodes {
@@ -109,11 +109,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * |    *   |   q  |   w  |   e  |   r  |   t  |      |           |      |   y  |   u  |   i  |   o  |   p  |    !   |
+ * |        |   q  |   w  |   e  |   r  |   t  |      |           |      |   y  |   u  |   i  |   o  |   p  |        |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |    =   |   a  |   s  |   d  |   f  |   g  |------|           |------|   h  |   j  |   k  |   l  |   ;  |    '   |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |    +   |   /  |   z  | x/alt|c/ctrl|   v  |      |           |      |   b  |n/ctrl| m/alt|   ,  |   .  |    -   |
+ * |    ?   |   !  |   z  | x/alt|c/ctrl|   v  |      |           |      |   b  |n/ctrl| m/alt|   ,  |   .  |    _   |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |      |      |      |      |      |                                       |      |      |      |      |      |
  *   `----------------------------------'                                       `----------------------------------'
@@ -121,25 +121,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                        |      |      |       |      |      |
  *                                 ,------|------|------|       |------+------+------.
  *                                 |bckspc|delete|      |       |      |      | space|
- *                                 |   /  |   /  |------|       |------| enter|   /  |
- *                                 | shift| VISY |  alt |       |  tab |      | shift|
+ *                                 |   /  |   /  |------|       |------|      |   /  |
+ *                                 | shift| VISY |  alt |       |  tab | enter| shift|
  *                                 `--------------------'       `--------------------'
  */
 [VIRT] = LAYOUT_ergodox(
-  KC_NO,   KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-  KC_ASTR, KC_Q,  KC_W,  KC_E,  KC_R,  KC_T,  KC_NO,
-  KC_EQL,  KC_A,  KC_S,  KC_D,  KC_F,  KC_G,
-  KC_PLUS, KC_NO, KC_Z,  KC_X,  KC_C,  KC_V,  KC_NO,
-  KC_NO,   KC_NO, KC_NO, KC_NO, KC_NO,
-                                                   KC_NO, KC_NO,
-                                                          KC_NO,
-                                  SFT_T(SY_BSPC), KC_DEL, KC_NO,
+  KC_NO,      KC_NO,   KC_NO, KC_NO,       KC_NO,       KC_NO, KC_NO,
+  KC_NO,      KC_Q,    KC_W,  KC_E,        KC_R,        KC_T,  KC_NO,
+  KC_EQL,     KC_A,    KC_S,  KC_D,        KC_F,        KC_G,
+  S(KC_SLSH), KC_EXLM, KC_Z,  ALT_T(KC_X), CTL_T(KC_C), KC_V,  KC_NO,
+  KC_NO,      KC_NO,   KC_NO, KC_NO,       KC_NO,
+                                                                     KC_NO, KC_NO,
+                                                                            KC_NO,
+                                                    SFT_T(KC_BSPC), KC_DEL, KC_NO,
 
-                KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,
-                KC_NO, KC_Y,  KC_U,  KC_I,  KC_O,    KC_P,    KC_EXLM,
-                       KC_H,  KC_J,  KC_K,  KC_L,    KC_SCLN, KC_QUOT,
-                KC_NO, KC_B,  KC_N,  KC_M,  KC_COMM, KC_DOT,  KC_MINS,
-                              KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,
+                KC_NO, KC_NO, KC_NO,        KC_NO,       KC_NO,   KC_NO,   KC_NO,
+                KC_NO, KC_Y,  KC_U,         KC_I,        KC_O,    KC_P,    KC_EXLM,
+                       KC_H,  KC_J,         KC_K,        KC_L,    KC_SCLN, KC_QUOT,
+                KC_NO, KC_B,  CTL_T(KC_N),  ALT_T(KC_M), KC_COMM, KC_DOT,  S(KC_MINS),
+                              KC_NO,        KC_NO,       KC_NO,   KC_NO,   KC_NO,
 
   KC_NO, KC_NO,
   KC_NO,
@@ -152,37 +152,37 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,---------------------------------------------------.           ,--------------------------------------------------.
  * |Version  |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
  * |---------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
- * |         |      |   @  |   {  |   }  |   |  |      |           |      |   !  |   7  |   8  |   9  |   *  |        |
+ * |         |   ^  |   @  |   {  |   }  |      |      |           |      |      |   7  |   8  |   9  |   *  |        |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |         |   #  |   $  |   (  |   )  |      |------|           |------|   |  |   4  |   5  |   6  |   +  |    `   |
+ * |     =   |   #  |   $  |   (  |   )  |   !  |------|           |------|   &  |   4  |   5  |   6  |   +  |    `   |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |         |   %  |   ^  |   [  |   ]  |   ~  |      |           |      |   &  |   1  |   2  |   3  |   .  |    \   |
+ * |     ?   |   ~  |   %  | [/alt|]/ctrl|   \  |      |           |      |   |  |1/ctrl| 2/alt|   3  |   .  |    -   |
  * `---------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |       |      |      |   <  |      |                                       |   0  |      |      |   =  |      |
+ *   |       |      |      |   <  |   >  |                                       |   0  |      |      |   /  |      |
  *   `-----------------------------------'                                       `----------------------------------'
- *                                        ,-------------.       ,-------------.
- *                                        |      |      |       |      |      |
- *                                 ,------|------|------|       |------+------+------.
- *                                 |      |      |      |       |      |      |      |
- *                                 |      |      |------|       |------|      |      |
- *                                 |      |      |      |       |      |      |      |
- *                                 `--------------------'       `--------------------'
+ *                                         ,-------------.       ,-------------.
+ *                                         |      |      |       |      |      |
+ *                                  ,------|------|------|       |------+------+------.
+ *                                  |      |      |      |       |      |      |      |
+ *                                  |      |      |------|       |------|      |      |
+ *                                  |      |      |      |       |      |      |      |
+ *                                  `--------------------'       `--------------------'
  */
 [VISY] = LAYOUT_ergodox(
-  VRSN,    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-  KC_TRNS, KC_TRNS, KC_AT,   KC_LCBR, KC_RCBR, KC_PIPE, KC_TRNS,
-  KC_TRNS, KC_HASH, KC_DLR,  KC_LPRN, KC_RPRN, KC_TRNS,
-  KC_TRNS, KC_PERC, KC_CIRC, KC_LBRC, KC_RBRC, KC_TILD, KC_TRNS,
-  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-                                               KC_TRNS, KC_TRNS,
-                                                        KC_TRNS,
-                                      KC_TRNS, KC_TRNS, KC_TRNS,
+  VRSN,    KC_TRNS, KC_TRNS, KC_TRNS,        KC_TRNS,        KC_TRNS, KC_TRNS,
+  KC_TRNS, KC_CIRC, KC_AT,   KC_LCBR,        KC_RCBR,        KC_TRNS, KC_TRNS,
+  KC_TRNS, KC_HASH, KC_DLR,  KC_LPRN,        KC_RPRN,        KC_EXLM,
+  KC_TRNS, KC_TILD, KC_PERC, CTL_T(KC_LBRC), ALT_T(KC_RBRC), KC_BSLS, KC_TRNS,
+  KC_TRNS, KC_TRNS, KC_TRNS, S(KC_COMM),     S(KC_DOT),
+                                                                              KC_TRNS, KC_TRNS,
+                                                                                       KC_TRNS,
+                                                                     KC_TRNS, KC_TRNS, KC_TRNS,
 
-  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-  KC_TRNS, KC_EXLM, KC_7,    KC_8,    KC_9,    KC_ASTR, KC_TRNS,
-           KC_PIPE, KC_4,    KC_5,    KC_6,    KC_PLUS, KC_GRV,
-  KC_TRNS, KC_AMPR, KC_1,    KC_2,    KC_3,    KC_DOT,  KC_TRNS,
-                    KC_0,    KC_TRNS, KC_TRNS, KC_EQL,  KC_TRNS,
+                    KC_TRNS, KC_TRNS, KC_TRNS,     KC_TRNS,     KC_TRNS,     KC_TRNS, KC_TRNS,
+                    KC_TRNS, KC_TRNS, KC_7,        KC_8,        KC_9,        KC_ASTR, KC_TRNS,
+                             KC_AMPR, KC_4,        KC_5,        KC_6,        KC_PLUS, KC_GRV,
+                    KC_TRNS, KC_PIPE, CTL_T(KC_1), ALT_T(KC_2), KC_3,        KC_DOT,  KC_MINS,
+                                      KC_0,        KC_TRNS,     KC_TRNS,     KC_SLSH, KC_TRNS,
   KC_TRNS, KC_TRNS,
   KC_TRNS,
   KC_TRNS, KC_TRNS, KC_TRNS
